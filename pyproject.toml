@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "img-to-dwg"
+version = "0.1.0"
+description = "Convert raster images to DWG CAD drawings via contour vectorization"
+authors = [
+  { name = "Architecture Gen" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Intended Audience :: Manufacturing",
+  "Topic :: Multimedia :: Graphics :: Capture :: Digital Camera",
+  "Topic :: Scientific/Engineering :: GIS"
+]
+dependencies = [
+  "numpy>=1.24",
+  "opencv-python-headless>=4.8",
+  "ezdxf>=1.1"
+]
+
+[project.optional-dependencies]
+cli = ["rich>=13.3"]
+
+[project.scripts]
+img-to-dwg = "img_to_dwg.cli:main"
