@@ -1,0 +1,2 @@
+# Core package has no hard runtime dependencies.
+# Install optional extras as needed, e.g. `pip install pillow` for image loading support.

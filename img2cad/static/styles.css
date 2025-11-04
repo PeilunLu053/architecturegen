@@ -1,0 +1,144 @@
+:root {
+  color-scheme: light dark;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  background: #f5f6fa;
+  color: #1b1f23;
+}
+
+body {
+  margin: 0;
+  padding: 0 1rem 2rem;
+  background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-top: 3rem;
+}
+
+.intro h1 {
+  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
+}
+
+.intro p {
+  margin: 0 0 1.5rem;
+  color: #475569;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  box-shadow: 0 20px 45px -24px rgba(15, 23, 42, 0.35);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field label,
+legend {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.field input,
+button,
+.checkbox input {
+  font: inherit;
+}
+
+.field input {
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+fieldset {
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  background: rgba(248, 250, 252, 0.7);
+}
+
+legend {
+  padding: 0 0.5rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-bottom: 1rem;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+.checkbox input {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.primary {
+  align-self: flex-start;
+  background: linear-gradient(120deg, #6366f1, #8b5cf6);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.65rem 1.5rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 35px -22px rgba(79, 70, 229, 0.85);
+}
+
+.alert {
+  background: #fee2e2;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: #b91c1c;
+  margin-bottom: 1.5rem;
+  border: 1px solid #fecaca;
+}
+
+footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.muted {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .intro h1 {
+    font-size: 1.8rem;
+  }
+}
