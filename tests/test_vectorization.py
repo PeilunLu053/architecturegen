@@ -18,6 +18,30 @@ def test_vectorizer_detects_components(tmp_path):
     assert content.count("LWPOLYLINE") == 2
 
 
+def test_vectorizer_traces_outline():
+    image = [
+        [0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0],
+    ]
+
+    from img2cad.vectorization import Vectorizer, VectorizerConfig
+
+    vectorizer = Vectorizer()
+    shapes = vectorizer.vectorize(image, VectorizerConfig(min_component_size=1))
+    assert len(shapes) == 1
+    polygon = shapes[0].points
+    # Expect an outline with more than the four points of a simple bounding box
+    assert len(polygon) > 4
+    # Ensure the outline starts at the lower-most x/y coordinate
+    xs = [x for x, _ in polygon]
+    ys = [y for _, y in polygon]
+    assert min(xs) == 1.0
+    assert min(ys) == 1.0
+
+
 def test_processing_threshold(tmp_path):
     raw = [[[255, 255, 255] for _ in range(5)] for _ in range(5)]
     raw[0][0] = [0, 0, 0]
@@ -37,5 +61,31 @@ def test_processing_threshold(tmp_path):
 
     content = output.read_text()
     # With a high threshold only the white area should be ignored; we expect
-    # a single bounding box to be written.
+    # a single outline to be written.
     assert content.count("LWPOLYLINE") == 1
+
+
+def test_simplification_respects_tolerance():
+    image = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 0],
+        [0, 1, 0, 0, 1, 0],
+        [0, 1, 0, 0, 1, 0],
+        [0, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0],
+    ]
+
+    from img2cad.vectorization import Vectorizer, VectorizerConfig
+
+    vectorizer = Vectorizer()
+    unsimplified = vectorizer.vectorize(
+        image,
+        VectorizerConfig(min_component_size=1, simplify=False),
+    )[0].points
+    simplified = vectorizer.vectorize(
+        image,
+        VectorizerConfig(min_component_size=1, simplify=True, simplify_tolerance=0.5),
+    )[0].points
+
+    assert len(simplified) < len(unsimplified)
+    assert simplified[0] == unsimplified[0]

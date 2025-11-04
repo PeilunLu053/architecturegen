@@ -36,7 +36,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--no-simplify",
         action="store_true",
-        help="Disable rectangle simplification for debugging purposes",
+        help="Disable contour simplification for debugging purposes",
+    )
+    parser.add_argument(
+        "--simplify-tolerance",
+        type=float,
+        default=0.5,
+        help="Maximum deviation allowed when simplifying outlines",
     )
     parser.add_argument(
         "--layer",
@@ -66,6 +72,7 @@ def main(argv: list[str] | None = None) -> int:
                 min_component_size=args.min_component_size,
                 simplify=not args.no_simplify,
                 close_shapes=not args.open_shapes,
+                simplify_tolerance=args.simplify_tolerance,
             ),
         ),
     )

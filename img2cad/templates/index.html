@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>img2cad 在线转换器</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="intro">
+        <h1>图像转 CAD</h1>
+        <p>
+          将 JPG、PNG 等位图快速转换成可导入 DWG 的 DXF 线稿。上传文件并调整预处理、矢量化参数，点击
+          <strong>开始转换</strong> 即可下载结果。
+        </p>
+      </section>
+
+      {% if error %}
+      <div class="alert">{{ error }}</div>
+      {% endif %}
+
+      <form class="card" action="/convert" method="post" enctype="multipart/form-data">
+        <div class="field">
+          <label for="file">源图像</label>
+          <input id="file" name="file" type="file" accept="image/*" required />
+        </div>
+
+        <fieldset>
+          <legend>预处理</legend>
+          <div class="grid">
+            <div class="field">
+              <label for="width">目标宽度 (px)</label>
+              <input id="width" name="width" type="number" min="1" step="1" value="{{ defaults.width }}" />
+            </div>
+            <div class="field">
+              <label for="height">目标高度 (px)</label>
+              <input id="height" name="height" type="number" min="1" step="1" value="{{ defaults.height }}" />
+            </div>
+            <div class="field">
+              <label for="threshold">二值化阈值</label>
+              <input id="threshold" name="threshold" type="number" min="0" max="255" value="{{ defaults.threshold }}" />
+            </div>
+          </div>
+          <label class="checkbox">
+            <input type="checkbox" name="maintain_aspect" value="true" {% if defaults.maintain_aspect %}checked{% endif %} />
+            保持比例
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>矢量化</legend>
+          <div class="grid">
+            <div class="field">
+              <label for="min_component_size">最小像素数</label>
+              <input
+                id="min_component_size"
+                name="min_component_size"
+                type="number"
+                min="1"
+                step="1"
+                value="{{ defaults.min_component_size }}"
+              />
+            </div>
+            <div class="field">
+              <label for="simplify_tolerance">简化容差</label>
+              <input
+                id="simplify_tolerance"
+                name="simplify_tolerance"
+                type="number"
+                min="0"
+                step="0.1"
+                value="{{ defaults.simplify_tolerance }}"
+              />
+            </div>
+          </div>
+          <label class="checkbox">
+            <input type="checkbox" name="close_shapes" value="true" {% if defaults.close_shapes %}checked{% endif %} />
+            输出封闭多段线
+          </label>
+        </fieldset>
+
+        <button type="submit" class="primary">开始转换</button>
+      </form>
+
+      <footer>
+        <p class="muted">
+          需要命令行或自动化调用？请查看项目 README 了解 Python API 与 CLI 的使用方法。
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
